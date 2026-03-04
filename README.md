@@ -54,11 +54,12 @@ ros2 launch turtlebot3_gazebo turtlebot3_velodyne_burger_houseSLAM.launch.py
 ros2 launch turtlebot3_gazebo turtlebot3_velodyne_burger_house.launch.py
 ```
 ### For keyboard teleop  
-
-Check `/tb3_0/cmd_vel` and remapping topic.
-
+Cargar modelo del robot (se puede poner también en el .bashrc)
 ```
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/tb3_0/cmd_vel
+export TURTLEBOT3_MODEL=burger
+```
+```
+ros2 run turtlebot3_teleop teleop_keyboard 
 ```
 
 ### Check TF   
