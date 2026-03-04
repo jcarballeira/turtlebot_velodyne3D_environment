@@ -1,118 +1,35 @@
-# Multi-turtlebot3-Gazebo-ROS2
+# Repositorio original Multi-turtlebot3-Gazebo-ROS2
+https://github.com/Taeyoung96/Multi-turtlebot3-Gazebo-ROS2
 
-## What's New?  
-- Multi turtlebot3 environment  
-- Turtlebot3 with Velodyne VLP-16 environment  
-- Multi turtlebot3 Velodyne VLP-16 environment  
+# Requisitos
+Tener instalado Gazebo
 
-## Result  
-
-### Multi turtlebot3
-
-
-- [TF result](https://github.com/Taeyoung96/Multi-turtlebot3-Gazebo-ROS2/blob/master/tf_results/multi-robot.pdf)
- 
-
-https://github.com/Taeyoung96/Multi-turtlebot3-Gazebo-ROS2/assets/41863759/89b961ef-96a2-440c-b406-d72db7ca710f
-
-
-### Turtlebot3 with Velodyne VLP-16
-
-- [TF result](https://github.com/Taeyoung96/Multi-turtlebot3-Gazebo-ROS2/blob/master/tf_results/velodyne-tf.pdf)
-
-
-https://github.com/Taeyoung96/Multi-turtlebot3-Gazebo-ROS2/assets/41863759/4eb346fa-8b4e-4211-bf02-bcd098046fbb
-
-
-
-## Build docker image 
+## Build 
+Crear carpeta turtlebot_ws y clonar repositorio. Renombrar carpeta descargada como src. Desde turtlebot_ws compilar:
 
 ```
-docker pull tyoung96/multi-turtlebot-gazebo
+colcon build --symlink-install
 ```
-
-## Make docker container  
-
-On local terminal,
-
+Cargar directamente el setup al arrancar terminal para Gazebo y este paquete. Añadir al path de búsqueda de modelos de Gazebo los directorios.
+Abrir archivo .bashrc:
 ```
-git clone https://github.com/Taeyoung96/Multi-turtlebot3-Gazebo-ROS2.git
+sudo gedit .bashrc
 ```
-
+Copiar al final:
 ```
-xhost +local:docker
+source ~/nombre_workspace/install/setup.bash
+source /usr/share/gazebo/setup.bash
+export GAZEBO_MODEL_PATH=/usr/share/gazebo-11/models:\
+$HOME/nombre_workspace/install/turtlebot3_gazebo/share/turtlebot3_gazebo/models:\
+$HOME/nombre_workspace/install/velodyne_description/share
 ```
-
-After that,
-
-```
-nvidia-docker run --privileged -it \
-           -e NVIDIA_DRIVER_CAPABILITIES=all \
-           -e NVIDIA_VISIBLE_DEVICES=all \
-           --volume=${Multi-turtlebot3-Gazebo_repo_root}:/root/workspace/src \
-           --volume=/tmp/.X11-unix:/tmp/.X11-unix:rw \
-           --net=host \
-           --ipc=host \
-           --name=${docker container name} \
-           --env="DISPLAY=$DISPLAY" \
-           ${docker image} /bin/bash
-```   
-
-⚠️ **You should change {Multi-turtlebot3-Gazebo_repo_root}, {docker container name}, {docker image} to suit your environment.**  
-
-For example,  
-```
-nvidia-docker run --privileged -it \
-           -e NVIDIA_DRIVER_CAPABILITIES=all \
-           -e NVIDIA_VISIBLE_DEVICES=all \
-           --volume=/home/taeyoung/Desktop/Multi-turtlebot3-Gazebo-ROS2:/root/workspace/src \
-           --volume=/tmp/.X11-unix:/tmp/.X11-unix:rw \
-           --net=host \
-           --ipc=host \
-           --name=multi-turtlebot-gazebo \
-           --env="DISPLAY=$DISPLAY" \
-           --env="QT_X11_NO_MITSHM=1" \
-           tyoung96/multi-turtlebot-gazebo:latest /bin/bash
-```
-
-## Build and run it!  
-
-When you run the container, it looks like this
-```
-root@taeyoung-cilab:/#
-```
-
-Enter them in turn to proceed with the build.
-
-```
-cd root/workspace/
-```
-```
-colcon build
-```
-```
-export TURTLEBOT3_MODEL=burger
-```
-```
-export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/root/workspace/src/turtlebot3_simulations/turtlebot3_gazebo/models/
-```
-```
-source install/setup.bash
-```
-
-- **TODO** : There is a still warning message.  
-
-### Re-enter the activated docker container  
-```
-docker exec -it -w /root/workspace multi-turtlebot-gazebo /bin/bash
-```
+Se recomienda también copiar:
 ```
 source /opt/ros/humble/setup.bash
 ```
 ```
 source install/setup.bash
 ```
-
 
 ### Multi-turtlebot3  
 
